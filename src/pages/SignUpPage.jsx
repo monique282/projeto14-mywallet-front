@@ -41,7 +41,7 @@ export default function SignUpPage() {
         <input placeholder="E-mail" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} disabled={disabled} data-test="email"/>
         <input placeholder="Senha" type="password" autoComplete="new-password" required value={senha} onChange={(e) => setSenha(e.target.value)} disabled={disabled} data-test="password"/>
         <input placeholder="Confirme a senha" type="password" autoComplete="new-password" required value={confirmarSenha} onChange={(e) => setConfirmarSenha(e.target.value)} disabled={disabled} data-test="conf-password"/>
-        <button type='submit' disabled={disabled} data-test="sing-up-submit ">
+        <button type='submit' disabled={disabled} data-test="sing-up-submit">
           {disabled ? (
             <ThreeDots width={32} height={21} border-radius={4.5} background-color="#A328D6" color="#FFFFFF" font-size={9} />
           ) : (
