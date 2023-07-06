@@ -1,18 +1,55 @@
-import { Link } from "react-router-dom"
-import styled from "styled-components"
-import MyWalletLogo from "../components/MyWalletLogo"
+import { useState } from "react";
+import { Link , useNavigate} from "react-router-dom";
+import styled from "styled-components";
+import MyWalletLogo from "../components/MyWalletLogo";
+import axios from "axios";
+import { ThreeDots } from "react-loader-spinner";
+
 
 export default function SignUpPage() {
+  const [nome, setNome] = useState('');
+  const [disabled, setDisabled] = useState(false);
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [confirmarSenha, setConfirmarSenha] = useState('');
+  const navigate = useNavigate();
+
+  function cadastro(e) {
+    e.preventDefault();
+
+    // se as senhas estão iguais ou nao 
+    if (senha != confirmarSenha) {
+      return alert("Senhas informadas estão divergentes!");
+    }
+    const url = `http://localhost:5000/cadastro`;
+   // para quando tiver o deploy const url = `${import.meta.env.VITE_API_URL}/cadastro`;
+    const dados = { nome, email, senha };
+    const promise = axios.post(url, dados)
+    setDisabled(true);
+    promise.then(resposta => navigate('/'));
+    promise.catch(resposta => {
+      alert(resposta.response.data.message);
+      setDisabled(false);
+    })
+  }
+
   return (
     <SingUpContainer>
-      <form>
+      <form onSubmit={cadastro}>
         <MyWalletLogo />
-        <input placeholder="Nome" type="text" />
-        <input placeholder="E-mail" type="email" />
-        <input placeholder="Senha" type="password" autocomplete="new-password" />
-        <input placeholder="Confirme a senha" type="password" autocomplete="new-password" />
-        <button>Cadastrar</button>
+        <input placeholder="Nome" type="text" required value={nome} onChange={(e) => setNome(e.target.value)} disabled={disabled} data-test="name"/>
+        <input placeholder="E-mail" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} disabled={disabled} data-test="email"/>
+        <input placeholder="Senha" type="password" autoComplete="new-password" required value={senha} onChange={(e) => setSenha(e.target.value)} disabled={disabled} data-test="password"/>
+        <input placeholder="Confirme a senha" type="password" autoComplete="new-password" required value={confirmarSenha} onChange={(e) => setConfirmarSenha(e.target.value)} disabled={disabled} data-test="conf-password"/>
+        <button type='submit' disabled={disabled} data-test="sing-up-submit ">
+          {disabled ? (
+            <ThreeDots width={32} height={21} border-radius={4.5} background-color="#A328D6" color="#FFFFFF" font-size={9} />
+          ) : (
+            <p>Cadastrar</p>
+          )}
+        </button>
       </form>
+
 
       <Link to={"/"}>
         Já tem uma conta? Entre agora!
