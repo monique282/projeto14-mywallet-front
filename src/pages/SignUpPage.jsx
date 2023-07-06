@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link , useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import MyWalletLogo from "../components/MyWalletLogo";
 import axios from "axios";
@@ -22,8 +22,12 @@ export default function SignUpPage() {
       return alert("Senhas informadas estão divergentes!");
     }
     const url = `http://localhost:5000/cadastro`;
-   // para quando tiver o deploy const url = `${import.meta.env.VITE_API_URL}/cadastro`;
-    const dados = { nome, email, senha };
+    // para quando tiver o deploy const url = `${import.meta.env.VITE_API_URL}/cadastro`;
+    const dados = {
+      nome: nome,
+      email: email,
+      senha: senha
+    };
     const promise = axios.post(url, dados)
     setDisabled(true);
     promise.then(resposta => navigate('/'));
@@ -37,10 +41,10 @@ export default function SignUpPage() {
     <SingUpContainer>
       <form onSubmit={cadastro}>
         <MyWalletLogo />
-        <input placeholder="Nome" type="text" required value={nome} onChange={(e) => setNome(e.target.value)} disabled={disabled} data-test="name"/>
-        <input placeholder="E-mail" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} disabled={disabled} data-test="email"/>
-        <input placeholder="Senha" type="password" autoComplete="new-password" required value={senha} onChange={(e) => setSenha(e.target.value)} disabled={disabled} data-test="password"/>
-        <input placeholder="Confirme a senha" type="password" autoComplete="new-password" required value={confirmarSenha} onChange={(e) => setConfirmarSenha(e.target.value)} disabled={disabled} data-test="conf-password"/>
+        <input placeholder="Nome" type="text" required value={nome} onChange={(e) => setNome(e.target.value)} disabled={disabled} data-test="name" />
+        <input placeholder="E-mail" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} disabled={disabled} data-test="email" />
+        <input placeholder="Senha" type="password" autoComplete="new-password" required value={senha} onChange={(e) => setSenha(e.target.value)} disabled={disabled} data-test="password" />
+        <input placeholder="Confirme a senha" type="password" autoComplete="new-password" required value={confirmarSenha} onChange={(e) => setConfirmarSenha(e.target.value)} disabled={disabled} data-test="conf-password" />
         <button type='submit' disabled={disabled} data-test="sing-up-submit">
           {disabled ? (
             <ThreeDots width={32} height={21} border-radius={4.5} background-color="#A328D6" color="#FFFFFF" font-size={9} />
