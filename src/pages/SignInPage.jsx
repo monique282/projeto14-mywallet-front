@@ -1,12 +1,15 @@
 import styled from "styled-components"
 import { Link , useNavigate} from "react-router-dom"
 import MyWalletLogo from "../components/MyWalletLogo"
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import axios from "axios";
+import { AuthContext } from "./Contex";
+
 
 export default function SignInPage() {
 
+  const {setToken} = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [disabled, setDisabled] = useState(false);
@@ -18,12 +21,13 @@ export default function SignInPage() {
         email: email,
         senha: senha
     }
-    const urlDados = `http://localhost:5000/`;
-    const promise = axios.post(urlDados, dados);
+    const url = `${import.meta.env.VITE_API_URL}/`
+    const promise = axios.post(url, dados);
     setDisabled(true);
     promise.then(resposta => {
-        //settoken(resposta.data.token);
+        setToken(resposta.data.token);
         navigate("/home");
+        
     });
 
     promise.catch(resposta => {
