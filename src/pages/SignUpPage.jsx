@@ -6,6 +6,8 @@ import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
 
 
+
+
 export default function SignUpPage() {
   const [nome, setNome] = useState('');
   const [disabled, setDisabled] = useState(false);
@@ -13,16 +15,18 @@ export default function SignUpPage() {
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
   const navigate = useNavigate();
+  
 
   function cadastro(e) {
     e.preventDefault();
-
     // se as senhas estão iguais ou nao 
     if (senha != confirmarSenha) {
       return alert("Senhas informadas estão divergentes!");
     }
-    const url = `http://localhost:5000/cadastro`;
-    // para quando tiver o deploy const url = `${import.meta.env.VITE_API_URL}/cadastro`;
+    // const url = `http://localhost:5000/cadastro`;
+    // para quando tiver o deploy 
+    const url = `${import.meta.env.VITE_API_URL}/cadastro`
+
     const dados = {
       nome: nome,
       email: email,
