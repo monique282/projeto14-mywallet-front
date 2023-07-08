@@ -9,7 +9,7 @@ import { AuthContext } from "./Contex";
 
 export default function SignInPage() {
 
-  const { setToken, setNome } = useContext(AuthContext);
+  const { setToken, token, setNome } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [disabled, setDisabled] = useState(false);
@@ -28,6 +28,7 @@ export default function SignInPage() {
       setNome(resposta.data.nome);
       setToken(resposta.data.token);
       navigate("/home");
+      console.log(resposta);
 
     });
 

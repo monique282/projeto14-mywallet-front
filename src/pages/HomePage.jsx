@@ -2,11 +2,37 @@ import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
 import { AuthContext } from "./Contex";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function HomePage() {
 
-  const { nome, setNome } = useContext(AuthContext);
+  const { nome, token } = useContext(AuthContext);
+  const [lista, setLista] = useState([])
+
+
+
+  useEffect(() => {
+
+    const url = `${import.meta.env.VITE_API_URL}/home`
+    const confi = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+    const promise = axios.get(url, confi);
+    promise.then(resposta => {
+      setLista(resposta.data);
+      
+    });
+    promise.catch(resposta => {
+      alert(resposta.response.data.message)
+
+    });
+  }, [])
+
+
 
   return (
     <HomeContainer>
@@ -17,38 +43,49 @@ export default function HomePage() {
 
       <TransactionsContainer>
         <ul>
-          <ListItemContainer>
-            <div>
-              <span>30/11</span>
-              <strong>Almoço mãe</strong>
-            </div>
-            <Value color={"negativo"}>120,00</Value>
-          </ListItemContainer>
+          {lista.length === 0 && (
+            <Vazio>
+              Não há registros de entrada ou saída
+            </Vazio>
+          )}
+          {lista.length !== 0 && (
+            <>
+              <ListItemContainer>
+                <div>
+                  <span>30/11</span>
+                  <strong>Almoço mãe</strong>
+                </div>
+                <Value color={"negativo"}>120,00</Value>
+              </ListItemContainer>
 
-          <ListItemContainer>
-            <div>
-              <span>15/11</span>
-              <strong>Salário</strong>
-            </div>
-            <Value color={"positivo"}>3000,00</Value>
-          </ListItemContainer>
+              <ListItemContainer>
+                <div>
+                  <span>15/11</span>
+                  <strong>Salário</strong>
+                </div>
+                <Value color={"positivo"}>3000,00</Value>
+              </ListItemContainer>
+              <article>
+                <strong>Saldo</strong>
+                <Value color={"positivo"}>2880,00</Value>
+              </article>
+            </>
+          )}
         </ul>
-
-        <article>
-          <strong>Saldo</strong>
-          <Value color={"positivo"}>2880,00</Value>
-        </article>
       </TransactionsContainer>
-
 
       <ButtonsContainer>
         <button>
+          <Link to={"/nova-transacao/entrada"}>
           <AiOutlinePlusCircle />
           <p>Nova <br /> entrada</p>
+          </Link>
         </button>
         <button>
+        <Link to={"/nova-transacao/saida"}>
           <AiOutlineMinusCircle />
           <p>Nova <br />saída</p>
+          </Link>
         </button>
       </ButtonsContainer>
 
@@ -123,4 +160,21 @@ const ListItemContainer = styled.li`
     color: #c6c6c6;
     margin-right: 10px;
   }
+`
+const Vazio = styled.p`
+  position: fixed;
+  width: 180px;
+  height: 46px;
+  top: 278px;
+  left: 98px;
+  font-family: 'Raleway';
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 23px;
+  letter-spacing: 0em;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
 `
