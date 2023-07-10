@@ -4,20 +4,24 @@ import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
 import { AuthContext } from "./Contex";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function HomePage() {
 
-  const { nome, token } = useContext(AuthContext);
+  const { nome, auth , setAuth} = useContext(AuthContext);
   const [lista, setLista] = useState([]);
   const [somaTotal, setSomaTotal] = useState(0);
+  const navigate = useNavigate();
+ 
+  
 
   useEffect(() => {
+  
 
     const url = `${import.meta.env.VITE_API_URL}/home`
     const confi = {
-      headers:  {
-        Authorization: `Bearer ${token}`
+      headers: {
+        Authorization: `Bearer ${auth.token}`
       }
     };
     const promise = axios.get(url, confi);
@@ -29,11 +33,11 @@ export default function HomePage() {
         valor: converterParaNumeroFlutuante(item.valor)
       }));
       setLista(listaPronta);
-      console.log(resposta.data);
+      console.log(resposta);
 
     })
       .catch(resposta => {
-        alert(resposta.response.data.message);
+        alert(resposta.response.data);
       });
 
     // essa função converte converter uma string para numero flutuante
@@ -49,13 +53,10 @@ export default function HomePage() {
   useEffect(() => {
     total();
   }, [lista, somaTotal]);
-  
-  
-
 
   function total() {
     // isso serve pra fazer o calculo final do total 
-  
+
     let soma = 0;
     lista.forEach(item => {
       if (item.tipo === "saida") {
@@ -68,11 +69,41 @@ export default function HomePage() {
     setSomaTotal(somaFormatada);
   }
 
+  // essa parte vai ficar para deslogar a pessoa
+
+  function Logout() {
+ 
+    const url = `${import.meta.env.VITE_API_URL}/home`
+    const confi = {
+      headers: {
+        Authorization: `Bearer ${auth.token}`
+      }
+    };
+    console.log("ate aqui")
+    const promise = axios.delete(url, confi);
+    promise.then(resposta => {
+    // deletar o token
+    //????? 
+    // apagar o local storage
+    console.log("ate aqui 1");
+    setAuth('');
+
+ // mandar pra tela de login
+    navigate("/");
+
+    })
+    .catch(resposta => {
+      alert(resposta.response.data);
+    });    
+  }
+
   return (
     <HomeContainer>
       <Header>
         <h1>Olá, {nome}</h1>
-        <BiExit />
+        <Deslogar onClick={Logout}>
+          <BiExit />
+        </Deslogar>
       </Header>
 
       <TransactionsContainer>
@@ -84,8 +115,9 @@ export default function HomePage() {
           )}
           {lista.length !== 0 && (
             <>
+            <Separar >
               {lista.map(lista => (
-                <ListItemContainer key={lista.id}>
+                <ListItemContainer key={lista._id}>
                   <div >
                     <span>{lista.data}</span>
                     <strong>{lista.descricao}</strong>
@@ -96,6 +128,7 @@ export default function HomePage() {
                     <Value color={"saida"}>{lista.valor}</Value>)}
                 </ListItemContainer>))
               }
+              </Separar>
               <article>
                 <strong>Saldo</strong>
                 {somaTotal > 0 && (
@@ -154,6 +187,7 @@ const TransactionsContainer = styled.article`
   justify-content: space-between;
   overflow-y: auto;
   position: relative;
+  
 
   article {
     position: absolute;
@@ -170,6 +204,8 @@ const TransactionsContainer = styled.article`
     align-items: center;
     z-index: 10;  
     background-color: #fff; 
+    margin-bottom: 100px;
+    
     strong {
       font-weight: 700;
       text-transform: uppercase;
@@ -211,6 +247,7 @@ const ListItemContainer = styled.li`
   margin-bottom: 8px;
   color: #000000;
   margin-right: 10px;
+  
   div span {
     color: #c6c6c6;
     margin-right: 10px;
@@ -232,4 +269,18 @@ const Vazio = styled.p`
   justify-content: center;
   align-items: center;
 
+`
+const Deslogar = styled.button`
+  width: 23px;
+  height: 24px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  
+
+
+`
+const Separar = styled.div`
+  margin-bottom: 20px; 
 `

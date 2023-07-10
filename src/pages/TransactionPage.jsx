@@ -9,7 +9,7 @@ export default function TransactionsPage() {
 
   const [valor, setValor] = useState();
   const [descricao, setDescricao] = useState('');
-  const { token } = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
   const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
   const { tipo } = useParams()
@@ -28,7 +28,7 @@ export default function TransactionsPage() {
     const url = `${import.meta.env.VITE_API_URL}/nova-transacao/:${tipo}`
     const confi = {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${auth.token}`
       }
     };
     const promise = axios.post(url, dados, confi);
@@ -40,7 +40,7 @@ export default function TransactionsPage() {
 
     });
     promise.catch(resposta => {
-      alert(resposta.response.data.message),
+      alert(resposta.response.data),
         setValor('');
       setDescricao('');
     });
