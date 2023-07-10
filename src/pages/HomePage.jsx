@@ -9,30 +9,64 @@ import { Link } from "react-router-dom";
 export default function HomePage() {
 
   const { nome, token } = useContext(AuthContext);
-  const [lista, setLista] = useState([])
-
-
+  const [lista, setLista] = useState([]);
+  const [somaTotal, setSomaTotal] = useState(0);
 
   useEffect(() => {
 
     const url = `${import.meta.env.VITE_API_URL}/home`
     const confi = {
-      headers: {
+      headers:  {
         Authorization: `Bearer ${token}`
       }
     };
     const promise = axios.get(url, confi);
     promise.then(resposta => {
-      setLista(resposta.data);
-      
+      // isso serve pra trocar os valores que eu recebo do servidor fazendo um array novo do jeito que eu preciso
+      const listaPronta = resposta.data.map(item => ({
+        ...item,
+        // aqui ele chama a função que vai trocar para numero flutuante
+        valor: converterParaNumeroFlutuante(item.valor)
+      }));
+      setLista(listaPronta);
+      console.log(resposta.data);
+
+    })
+      .catch(resposta => {
+        alert(resposta.response.data.message);
+      });
+
+    // essa função converte converter uma string para numero flutuante
+    function converterParaNumeroFlutuante(valor) {
+      const numeroAindaString = valor.replace(',', '.'); // traca a , por .
+      const numeroFlutuante = parseFloat(numeroAindaString); // passa para numero flutuante
+      return numeroFlutuante.toFixed(2); // aui eu falo quantas casas decimais eu quero
+    }
+
+
+  }, []);
+
+  useEffect(() => {
+    total();
+  }, [lista, somaTotal]);
+  
+  
+
+
+  function total() {
+    // isso serve pra fazer o calculo final do total 
+  
+    let soma = 0;
+    lista.forEach(item => {
+      if (item.tipo === "saida") {
+        soma -= parseFloat(item.valor);
+      } else if (item.tipo === "entrada") {
+        soma += parseFloat(item.valor);
+      }
     });
-    promise.catch(resposta => {
-      alert(resposta.response.data.message)
-
-    });
-  }, [])
-
-
+    const somaFormatada = soma.toFixed(2);
+    setSomaTotal(somaFormatada);
+  }
 
   return (
     <HomeContainer>
@@ -50,24 +84,26 @@ export default function HomePage() {
           )}
           {lista.length !== 0 && (
             <>
-              <ListItemContainer>
-                <div>
-                  <span>30/11</span>
-                  <strong>Almoço mãe</strong>
-                </div>
-                <Value color={"negativo"}>120,00</Value>
-              </ListItemContainer>
-
-              <ListItemContainer>
-                <div>
-                  <span>15/11</span>
-                  <strong>Salário</strong>
-                </div>
-                <Value color={"positivo"}>3000,00</Value>
-              </ListItemContainer>
+              {lista.map(lista => (
+                <ListItemContainer key={lista.id}>
+                  <div >
+                    <span>{lista.data}</span>
+                    <strong>{lista.descricao}</strong>
+                  </div>
+                  {lista.tipo === "entrada" && (
+                    <Value color={"positivo"}>{lista.valor}</Value>)}
+                  {lista.tipo === "saida" && (
+                    <Value color={"saida"}>{lista.valor}</Value>)}
+                </ListItemContainer>))
+              }
               <article>
                 <strong>Saldo</strong>
-                <Value color={"positivo"}>2880,00</Value>
+                {somaTotal > 0 && (
+                  <Value color={"positivo"}>{somaTotal}</Value>
+                )}
+                {somaTotal < 0 && (
+                  <Value color={"saida"}>{somaTotal}</Value>
+                )}
               </article>
             </>
           )}
@@ -77,14 +113,14 @@ export default function HomePage() {
       <ButtonsContainer>
         <button>
           <Link to={"/nova-transacao/entrada"}>
-          <AiOutlinePlusCircle />
-          <p>Nova <br /> entrada</p>
+            <AiOutlinePlusCircle />
+            <p>Nova <br /> entrada</p>
           </Link>
         </button>
         <button>
-        <Link to={"/nova-transacao/saida"}>
-          <AiOutlineMinusCircle />
-          <p>Nova <br />saída</p>
+          <Link to={"/nova-transacao/saida"}>
+            <AiOutlineMinusCircle />
+            <p>Nova <br />saída</p>
           </Link>
         </button>
       </ButtonsContainer>
@@ -116,12 +152,31 @@ const TransactionsContainer = styled.article`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow-y: auto;
+  position: relative;
+
   article {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 32px;
+    width: 285px;
+    position: fixed;
+    top:480px;
+    left:40px;
     display: flex;
-    justify-content: space-between;   
+    justify-content: space-between; 
+    text-align: center;
+    align-items: center;
+    z-index: 10;  
+    background-color: #fff; 
     strong {
       font-weight: 700;
       text-transform: uppercase;
+      margin-right: 165px;
+      margin-left: 0px;
+      
+   
     }
   }
 `
@@ -144,7 +199,7 @@ const ButtonsContainer = styled.section`
     }
   }
 `
-const Value = styled.div`
+const Value = styled.div` 
   font-size: 16px;
   text-align: right;
   color: ${(props) => (props.color === "positivo" ? "green" : "red")};

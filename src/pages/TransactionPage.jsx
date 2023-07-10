@@ -2,49 +2,39 @@ import { useState } from "react";
 import styled from "styled-components"
 import { AuthContext } from "./Contex";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
-export default function TransactionsPageSaida() {
+export default function TransactionsPage() {
 
-  const [valor, setValor] = useState('');
+  const [valor, setValor] = useState();
   const [descricao, setDescricao] = useState('');
   const { token } = useContext(AuthContext);
   const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
-
+  const { tipo } = useParams()
 
   function Criar(e) {
+
     e.preventDefault();
-
-    if (valor.trim() === '') {
-      alert('O campo não foi preenchido. Por favor, insira um valor.');
-      return;
-    }
-    if (descricao.trim() === '') {
-      alert('O campo não foi preenchido. Por favor, insira uma descrição.');
-      return;
-    }
-
+    setValor(parseFloat(valor).toFixed(1));
+    
     const dados = {
       valor: valor,
       descricao: descricao,
-      tipo: "saida"
+      tipo: `${tipo}`
     };
-    console.log(" nao autorizado")
-    const url = `${import.meta.env.VITE_API_URL}/home`
+
+    const url = `${import.meta.env.VITE_API_URL}/nova-transacao/:${tipo}`
     const confi = {
       headers: {
         Authorization: `Bearer ${token}`
       }
     };
-    console.log("autorizado")
     const promise = axios.post(url, dados, confi);
     promise.then(resposta => {
-      console.log("ate aqui")
       setValor('');
       setDescricao('');
-      console.log(resposta)
-      console.log("deu certo")
       setDisabled(true)
       navigate("/home");
 
@@ -54,18 +44,16 @@ export default function TransactionsPageSaida() {
         setValor('');
       setDescricao('');
     });
-    
   }
-
 
   return (
     <TransactionsContainer>
-      <h1>Nova saida</h1>
-      <form>
-        <input placeholder="Valor" type="text" required value={valor} onChange={(e) => setValor(e.target.value)} disabled={disabled} data-test="" />
+      <h1>Nova {tipo}</h1>
+      <form onSubmit={Criar}>
+        <input placeholder="Valor" type="number" required value={valor} onChange={(e) => setValor(e.target.value)} disabled={disabled} data-test="" />
         <input placeholder="Descrição" type="text" required value={descricao} onChange={(e) => setDescricao(e.target.value)} disabled={disabled} data-test="" />
-        <button onClick={() => Criar()}>Salvar entrada</button>
-      </form>
+        <button>Salvar {tipo}</button>
+      </form >
     </TransactionsContainer>
   )
 }

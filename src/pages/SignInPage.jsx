@@ -9,7 +9,7 @@ import { AuthContext } from "./Contex";
 
 export default function SignInPage() {
 
-  const { setToken, token, setNome } = useContext(AuthContext);
+  const { setToken, setNome } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [disabled, setDisabled] = useState(false);
