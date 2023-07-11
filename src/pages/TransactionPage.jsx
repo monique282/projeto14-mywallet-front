@@ -18,7 +18,7 @@ export default function TransactionsPage() {
 
     e.preventDefault();
     setValor(parseFloat(valor).toFixed(1));
-    
+
     const dados = {
       valor: valor,
       descricao: descricao,
@@ -51,8 +51,13 @@ export default function TransactionsPage() {
     <TransactionsContainer>
       <h1>Nova {tipo}</h1>
       <form onSubmit={Criar}>
-        <input data-test="registry-amount-input" placeholder="Valor" type="number" required value={valor} onChange={(e) => setValor(e.target.value)} disabled={disabled}  />
-        <input data-test="registry-name-input" placeholder="Descrição" type="text" required value={descricao} onChange={(e) => setDescricao(e.target.value)} disabled={disabled}  />
+        <input data-test="registry-amount-input" placeholder="Valor" type="number" required value={valor} onChange={(e) => {
+          const inputValor = e.target.value;
+          if (inputValor >= 0) {
+            setValor(inputValor);
+          }
+        }} disabled={disabled} />
+        <input data-test="registry-name-input" placeholder="Descrição" type="text" required value={descricao} onChange={(e) => setDescricao(e.target.value)} disabled={disabled} />
         <button data-test="registry-save">Salvar {tipo}</button>
       </form >
     </TransactionsContainer>
