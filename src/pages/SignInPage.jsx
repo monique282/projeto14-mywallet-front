@@ -9,7 +9,7 @@ import { AuthContext } from "./Contex";
 
 export default function SignInPage() {
 
-  const {setNome } = useContext(AuthContext);
+  const {setAuth } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [disabled, setDisabled] = useState(false);
@@ -26,6 +26,7 @@ export default function SignInPage() {
     setDisabled(true);
     promise.then(resposta => {
       localStorage.setItem("user", JSON.stringify({email, token: resposta.data.token, nome: resposta.data.nome}));
+      setAuth({email, token: resposta.data.token, nome: resposta.data.nome})
       navigate("/home");
 
     });

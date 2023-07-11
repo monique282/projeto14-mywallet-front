@@ -141,13 +141,13 @@ export default function HomePage() {
       </TransactionsContainer>
 
       <ButtonsContainer>
-        <button data-test="new-income">
+        <button data-test="new-income" >
           <Link to={"/nova-transacao/entrada"}>
             <AiOutlinePlusCircle />
             <p>Nova <br /> entrada</p>
           </Link>
         </button>
-        <button data-test="new-expense">
+        <button data-test="new-expense" >
           <Link to={"/nova-transacao/saida"}>
             <AiOutlineMinusCircle />
             <p>Nova <br />saída</p>
@@ -172,6 +172,7 @@ const Header = styled.header`
   margin-bottom: 15px;
   font-size: 26px;
   color: white;
+  
 `
 const TransactionsContainer = styled.article`
   flex-grow: 1;
@@ -184,7 +185,6 @@ const TransactionsContainer = styled.article`
   justify-content: space-between;
   overflow-y: auto;
   position: relative;
-  
 
   article {
     position: absolute;
