@@ -97,7 +97,7 @@ export default function HomePage() {
   return (
     <HomeContainer>
       <Header>
-        <h1 data-test="user-nome">Olá, {auth && auth.nome}</h1>
+        <h1 data-test="user-name">Olá, {auth && auth.nome}</h1>
         <Deslogar onClick={Logout} data-test="logout">
           <BiExit />
         </Deslogar>
