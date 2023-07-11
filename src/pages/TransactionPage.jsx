@@ -22,7 +22,8 @@ export default function TransactionsPage() {
     const dados = {
       valor: valor,
       descricao: descricao,
-      tipo: `${tipo}`
+      tipo: `${tipo}`,
+      email: auth.email
     };
 
     const url = `${import.meta.env.VITE_API_URL}/nova-transacao/:${tipo}`

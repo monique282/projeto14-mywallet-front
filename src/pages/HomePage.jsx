@@ -16,12 +16,14 @@ export default function HomePage() {
 
 
   useEffect(() => {
-
+    if (!auth) {
+      return
+    }
 
     const url = `${import.meta.env.VITE_API_URL}/home`
     const confi = {
       headers: {
-        Authorization: `Bearer ${auth.token}`
+        Authorization: `Bearer ${auth?.token}`
       }
     };
     const promise = axios.get(url, confi);
@@ -37,7 +39,7 @@ export default function HomePage() {
     })
       .catch(resposta => {
         alert(resposta.response.data);
-      }, []);
+      });
 
     // essa função converte converter uma string para numero flutuante
     function converterParaNumeroFlutuante(valor) {
@@ -46,12 +48,11 @@ export default function HomePage() {
       return numeroFlutuante.toFixed(2); // aui eu falo quantas casas decimais eu quero
     }
 
-
-  }, []);
+  }, [auth]);
 
   useEffect(() => {
     total();
-  }, [lista, somaTotal]);
+  }, [lista]);
 
   function total() {
     // isso serve pra fazer o calculo final do total 
@@ -140,20 +141,18 @@ export default function HomePage() {
       </TransactionsContainer>
 
       <ButtonsContainer>
-        <Link to={"/nova-transacao/entrada"}>
-          <button data-test="new-income">
+        <button data-test="new-income">
+          <Link to={"/nova-transacao/entrada"}>
             <AiOutlinePlusCircle />
             <p>Nova <br /> entrada</p>
-          </button>
-        </Link>
-
-        <Link to={"/nova-transacao/saida"}>
-          <button data-test="new-expense">
+          </Link>
+        </button>
+        <button data-test="new-expense">
+          <Link to={"/nova-transacao/saida"}>
             <AiOutlineMinusCircle />
             <p>Nova <br />saída</p>
-          </button>
-        </Link>
-
+          </Link>
+        </button>
       </ButtonsContainer>
 
     </HomeContainer>

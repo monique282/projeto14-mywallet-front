@@ -27,7 +27,6 @@ export default function SignInPage() {
     promise.then(resposta => {
       localStorage.setItem("user", JSON.stringify({email, token: resposta.data.token, nome: resposta.data.nome}));
       navigate("/home");
-      console.log(resposta);
 
     });
 
