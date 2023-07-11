@@ -122,7 +122,7 @@ export default function HomePage() {
                     {lista.tipo === "entrada" && (
                       <Value color={"positivo"} data-test="registry-amount">{lista.valor}</Value>)}
                     {lista.tipo === "saida" && (
-                      <Value color={"saida"}>{lista.valor}</Value>)}
+                      <Value color={"saida"} data-test="registry-amount" >{lista.valor}</Value>)}
                   </ListItemContainer>))
                 }
               </Separar>
@@ -132,7 +132,7 @@ export default function HomePage() {
                   <Value color={"positivo"} data-test="total-amount">{somaTotal}</Value>
                 )}
                 {somaTotal < 0 && (
-                  <Value color={"saida"}>{somaTotal}</Value>
+                  <Value color={"saida"} data-test="total-amount">{somaTotal}</Value>
                 )}
               </article>
             </>
