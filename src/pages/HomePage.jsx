@@ -117,12 +117,12 @@ export default function HomePage() {
                   <ListItemContainer key={lista._id}>
                     <div >
                       <span>{lista.data}</span>
-                      <strong data-test="registry-nome">{lista.descricao}</strong>
+                      <strong data-test="registry-name">{lista.descricao}</strong>
                     </div>
                     {lista.tipo === "entrada" && (
-                      <Value color={"positivo"} data-test="registry-amount">{lista.valor}</Value>)}
+                      <Value data-test="registry-amount" color={"positivo"} >{lista.valor}</Value>)}
                     {lista.tipo === "saida" && (
-                      <Value color={"saida"} data-test="registry-amount" >{lista.valor}</Value>)}
+                      <Value data-test="registry-amount" color={"saida"}  >{lista.valor}</Value>)}
                   </ListItemContainer>))
                 }
               </Separar>
@@ -220,9 +220,13 @@ const ButtonsContainer = styled.section`
   margin-bottom: 0;
   display: flex;
   gap: 15px;
-  
+
+  a{
+    width: 100%;
+  }
+
   button {
-    width: 50%;
+    width: 100%;
     height: 115px;
     font-size: 22px;
     text-align: left;

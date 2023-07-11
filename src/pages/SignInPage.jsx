@@ -30,7 +30,6 @@ export default function SignInPage() {
       navigate("/home");
 
     });
-
     promise.catch(resposta => {
       alert(resposta.response.data.message);
       setDisabled(false);
