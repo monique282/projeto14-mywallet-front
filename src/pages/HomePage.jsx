@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function HomePage() {
 
-  const { nome, auth, setAuth } = useContext(AuthContext);
+  const { auth, setAuth } = useContext(AuthContext);
   const [lista, setLista] = useState([]);
   const [somaTotal, setSomaTotal] = useState(0);
   const navigate = useNavigate();
@@ -33,12 +33,11 @@ export default function HomePage() {
         valor: converterParaNumeroFlutuante(item.valor)
       }));
       setLista(listaPronta);
-      console.log(resposta);
 
     })
       .catch(resposta => {
         alert(resposta.response.data);
-      });
+      }, []);
 
     // essa função converte converter uma string para numero flutuante
     function converterParaNumeroFlutuante(valor) {
@@ -97,7 +96,8 @@ export default function HomePage() {
   return (
     <HomeContainer>
       <Header>
-        <h1 data-test="user-nome">Olá, {nome}</h1>
+        <h1 data-test="user-nome">Olá,
+          {auth && auth.nome}</h1>
         <Deslogar onClick={Logout} data-test="logout">
           <BiExit />
         </Deslogar>
@@ -191,14 +191,17 @@ const TransactionsContainer = styled.article`
     bottom: 0;
     left: 0;
     height: 32px;
-    width: 345px;
+    min-width: 345px;
+    width: calc(100% - 25px );
     display: flex;
-    justify-content: space-around; 
+    justify-content: space-between;
     text-align: center;
     align-items: center;
     z-index: 10;  
     background-color: #fff; 
-    margin: 0 auto;
+  
+    flex-grow: 1;
+   
    
     
     strong {

@@ -25,8 +25,7 @@ export default function SignInPage() {
     const promise = axios.post(url, dados);
     setDisabled(true);
     promise.then(resposta => {
-      setNome(resposta.data.nome);
-      localStorage.setItem("user", JSON.stringify({email, token: resposta.data.token}));
+      localStorage.setItem("user", JSON.stringify({email, token: resposta.data.token, nome: resposta.data.nome}));
       navigate("/home");
       console.log(resposta);
 
@@ -67,4 +66,5 @@ const SingInContainer = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  
 `

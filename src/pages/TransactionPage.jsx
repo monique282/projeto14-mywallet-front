@@ -7,7 +7,7 @@ import axios from "axios";
 
 export default function TransactionsPage() {
 
-  const [valor, setValor] = useState();
+  const [valor, setValor] = useState("");
   const [descricao, setDescricao] = useState('');
   const { auth } = useContext(AuthContext);
   const [disabled, setDisabled] = useState(false);
