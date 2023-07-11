@@ -96,7 +96,7 @@ export default function HomePage() {
   return (
     <HomeContainer>
       <Header>
-        <h1 data-test="user-nome">Olá, { auth &&  auth.nome}</h1>
+        <h1 data-test="user-nome">Olá, {auth && auth.nome}</h1>
         <Deslogar onClick={Logout} data-test="logout">
           <BiExit />
         </Deslogar>
@@ -140,18 +140,20 @@ export default function HomePage() {
       </TransactionsContainer>
 
       <ButtonsContainer>
-        <button >
-          <Link to={"/nova-transacao/entrada"} data-test="new-income">
+        <Link to={"/nova-transacao/entrada"}>
+          <button data-test="new-income">
             <AiOutlinePlusCircle />
             <p>Nova <br /> entrada</p>
-          </Link>
-        </button>
-        <button >
-          <Link to={"/nova-transacao/saida"} data-test="new-expense">
+          </button>
+        </Link>
+
+        <Link to={"/nova-transacao/saida"}>
+          <button data-test="new-expense">
             <AiOutlineMinusCircle />
             <p>Nova <br />saída</p>
-          </Link>
-        </button>
+          </button>
+        </Link>
+
       </ButtonsContainer>
 
     </HomeContainer>
