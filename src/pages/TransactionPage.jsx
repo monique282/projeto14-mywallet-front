@@ -60,7 +60,7 @@ export default function TransactionsPage() {
 
 const TransactionsContainer = styled.main`
   height: calc(100vh - 50px);
-  display: flex;
+  display: flex; 
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
