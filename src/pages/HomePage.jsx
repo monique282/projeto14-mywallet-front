@@ -8,15 +8,15 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function HomePage() {
 
-  const { nome, auth , setAuth} = useContext(AuthContext);
+  const { nome, auth, setAuth } = useContext(AuthContext);
   const [lista, setLista] = useState([]);
   const [somaTotal, setSomaTotal] = useState(0);
   const navigate = useNavigate();
- 
-  
+
+
 
   useEffect(() => {
-  
+
 
     const url = `${import.meta.env.VITE_API_URL}/home`
     const confi = {
@@ -72,7 +72,7 @@ export default function HomePage() {
   // essa parte vai ficar para deslogar a pessoa
 
   function Logout() {
- 
+
     const url = `${import.meta.env.VITE_API_URL}/home`
     const confi = {
       headers: {
@@ -82,26 +82,23 @@ export default function HomePage() {
     console.log("ate aqui")
     const promise = axios.delete(url, confi);
     promise.then(resposta => {
-    // deletar o token
-    //????? 
-    // apagar o local storage
-    console.log("ate aqui 1");
-    setAuth('');
+      // apagar o local storage
+      localStorage.clear();
 
- // mandar pra tela de login
-    navigate("/");
+      // mandar pra tela de login
+      navigate("/");
 
     })
-    .catch(resposta => {
-      alert(resposta.response.data);
-    });    
+      .catch(resposta => {
+        alert(resposta.response.data);
+      });
   }
 
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, {nome}</h1>
-        <Deslogar onClick={Logout}>
+        <h1 data-test="user-nome">Olá, {nome}</h1>
+        <Deslogar onClick={Logout} data-test="logout">
           <BiExit />
         </Deslogar>
       </Header>
@@ -115,24 +112,24 @@ export default function HomePage() {
           )}
           {lista.length !== 0 && (
             <>
-            <Separar >
-              {lista.map(lista => (
-                <ListItemContainer key={lista._id}>
-                  <div >
-                    <span>{lista.data}</span>
-                    <strong>{lista.descricao}</strong>
-                  </div>
-                  {lista.tipo === "entrada" && (
-                    <Value color={"positivo"}>{lista.valor}</Value>)}
-                  {lista.tipo === "saida" && (
-                    <Value color={"saida"}>{lista.valor}</Value>)}
-                </ListItemContainer>))
-              }
+              <Separar >
+                {lista.map(lista => (
+                  <ListItemContainer key={lista._id}>
+                    <div >
+                      <span>{lista.data}</span>
+                      <strong data-test="registry-nome">{lista.descricao}</strong>
+                    </div>
+                    {lista.tipo === "entrada" && (
+                      <Value color={"positivo"} data-test="registry-amount">{lista.valor}</Value>)}
+                    {lista.tipo === "saida" && (
+                      <Value color={"saida"}>{lista.valor}</Value>)}
+                  </ListItemContainer>))
+                }
               </Separar>
               <article>
                 <strong>Saldo</strong>
                 {somaTotal > 0 && (
-                  <Value color={"positivo"}>{somaTotal}</Value>
+                  <Value color={"positivo"} data-test="total-amount">{somaTotal}</Value>
                 )}
                 {somaTotal < 0 && (
                   <Value color={"saida"}>{somaTotal}</Value>
@@ -144,13 +141,13 @@ export default function HomePage() {
       </TransactionsContainer>
 
       <ButtonsContainer>
-        <button>
+        <button data-test="new-income">
           <Link to={"/nova-transacao/entrada"}>
             <AiOutlinePlusCircle />
             <p>Nova <br /> entrada</p>
           </Link>
         </button>
-        <button>
+        <button data-test="new-expense">
           <Link to={"/nova-transacao/saida"}>
             <AiOutlineMinusCircle />
             <p>Nova <br />saída</p>
@@ -194,23 +191,21 @@ const TransactionsContainer = styled.article`
     bottom: 0;
     left: 0;
     height: 32px;
-    width: 285px;
-    position: fixed;
-    top:480px;
-    left:40px;
+    width: 345px;
     display: flex;
-    justify-content: space-between; 
+    justify-content: space-around; 
     text-align: center;
     align-items: center;
     z-index: 10;  
     background-color: #fff; 
-    margin-bottom: 100px;
+    margin: 0 auto;
+   
     
     strong {
       font-weight: 700;
       text-transform: uppercase;
-      margin-right: 165px;
-      margin-left: 0px;
+      margin-right: 200px;
+      margin-left: 10px;
       
    
     }

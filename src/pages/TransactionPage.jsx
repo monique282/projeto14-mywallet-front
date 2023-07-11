@@ -50,9 +50,9 @@ export default function TransactionsPage() {
     <TransactionsContainer>
       <h1>Nova {tipo}</h1>
       <form onSubmit={Criar}>
-        <input placeholder="Valor" type="number" required value={valor} onChange={(e) => setValor(e.target.value)} disabled={disabled} data-test="" />
-        <input placeholder="Descrição" type="text" required value={descricao} onChange={(e) => setDescricao(e.target.value)} disabled={disabled} data-test="" />
-        <button>Salvar {tipo}</button>
+        <input placeholder="Valor" type="number" required value={valor} onChange={(e) => setValor(e.target.value)} disabled={disabled} data-test="registry-amount-input" />
+        <input placeholder="Descrição" type="text" required value={descricao} onChange={(e) => setDescricao(e.target.value)} disabled={disabled} data-test="registry-nome-input" />
+        <button data-test="registry-save">Salvar {tipo}</button>
       </form >
     </TransactionsContainer>
   )
