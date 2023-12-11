@@ -7,7 +7,7 @@ import axios from "axios";
 
 export default function TransactionsPage() {
 
-  const [valor, setValor] = useState("");
+  const [value, setValor] = useState("");
   const [descricao, setDescricao] = useState('');
   const { auth } = useContext(AuthContext);
   const [disabled, setDisabled] = useState(false);
@@ -17,13 +17,12 @@ export default function TransactionsPage() {
   function Criar(e) {
 
     e.preventDefault();
-    setValor(parseFloat(valor).toFixed(1));
+    setValor(parseFloat(value).toFixed(1));
     
     const dados = {
-      valor: valor,
-      descricao: descricao,
-      tipo: `${tipo}`,
-      email: auth.email
+      value: value,
+      description: descricao,
+      type: `${tipo}`
     };
 
     const url = `${import.meta.env.VITE_API_URL}/nova-transacao/:${tipo}`
@@ -51,7 +50,7 @@ export default function TransactionsPage() {
     <TransactionsContainer>
       <h1>Nova {tipo}</h1>
       <form onSubmit={Criar}>
-        <input data-test="registry-amount-input" placeholder="Valor" type="number" required value={valor} onChange={(e) => setValor(e.target.value)} disabled={disabled}  />
+        <input data-test="registry-amount-input" placeholder="Valor" type="number" required value={value} onChange={(e) => setValor(e.target.value)} disabled={disabled}  />
         <input data-test="registry-name-input" placeholder="Descrição" type="text" required value={descricao} onChange={(e) => setDescricao(e.target.value)} disabled={disabled}  />
         <button data-test="registry-save">Salvar {tipo}</button>
       </form >

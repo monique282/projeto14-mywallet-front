@@ -13,8 +13,6 @@ export default function HomePage() {
   const [somaTotal, setSomaTotal] = useState(0);
   const navigate = useNavigate();
 
-
-
   useEffect(() => {
     if (!auth) {
       return
@@ -32,7 +30,7 @@ export default function HomePage() {
       const listaPronta = resposta.data.map(item => ({
         ...item,
         // aqui ele chama a função que vai trocar para numero flutuante
-        valor: converterParaNumeroFlutuante(item.valor)
+        value: converterParaNumeroFlutuante(item.value)
       }));
       setLista(listaPronta);
 
@@ -42,8 +40,8 @@ export default function HomePage() {
       });
 
     // essa função converte converter uma string para numero flutuante
-    function converterParaNumeroFlutuante(valor) {
-      const numeroAindaString = valor.replace(',', '.'); // traca a , por .
+    function converterParaNumeroFlutuante(value) {
+      const numeroAindaString = value.replace(',', '.'); // traca a , por .
       const numeroFlutuante = parseFloat(numeroAindaString); // passa para numero flutuante
       return numeroFlutuante.toFixed(2); // aqui eu falo quantas casas decimais eu quero
     }
@@ -59,10 +57,10 @@ export default function HomePage() {
 
     let soma = 0;
     lista.forEach(item => {
-      if (item.tipo === "saida") {
-        soma -= parseFloat(item.valor);
-      } else if (item.tipo === "entrada") {
-        soma += parseFloat(item.valor);
+      if (item.type === "saida") {
+        soma -= parseFloat(item.value);
+      } else if (item.type === "entrada") {
+        soma += parseFloat(item.value);
       }
     });
     const somaFormatada = soma.toFixed(2);
@@ -79,7 +77,7 @@ export default function HomePage() {
         Authorization: `Bearer ${auth.token}`
       }
     };
-    console.log("ate aqui")
+
     const promise = axios.delete(url, confi);
     promise.then(resposta => {
       // apagar o local storage
@@ -117,12 +115,12 @@ export default function HomePage() {
                   <ListItemContainer key={lista._id}>
                     <div >
                       <span>{lista.data}</span>
-                      <strong data-test="registry-name">{lista.descricao}</strong>
+                      <strong data-test="registry-name">{lista.description}</strong>
                     </div>
-                    {lista.tipo === "entrada" && (
-                      <Value data-test="registry-amount" color={"positivo"} >{lista.valor}</Value>)}
-                    {lista.tipo === "saida" && (
-                      <Value data-test="registry-amount" color={"saida"}  >{lista.valor}</Value>)}
+                    {lista.type === "entrada" && (
+                      <Value data-test="registry-amount" color={"positivo"} >{lista.value}</Value>)}
+                    {lista.type === "saida" && (
+                      <Value data-test="registry-amount" color={"saida"}  >{lista.value}</Value>)}
                   </ListItemContainer>))
                 }
               </Separar>
