@@ -62,6 +62,7 @@ export default function HomePage() {
       } else if (item.type === "entrada") {
         soma += parseFloat(item.value);
       }
+      
     });
     const somaFormatada = soma.toFixed(2);
     setSomaTotal(somaFormatada);
