@@ -11,7 +11,7 @@ export default function SignInPage() {
 
   const {setAuth } = useContext(AuthContext);
   const [email, setEmail] = useState('');
-  const [password, set] = useState('');
+  const [password, setSenha] = useState('');
   const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
 
@@ -22,11 +22,13 @@ export default function SignInPage() {
       password: password
     }
     const url = `${import.meta.env.VITE_API_URL}/`
+    console.log(dados)
     const promise = axios.post(url, dados);
     setDisabled(true);
     promise.then(resposta => {
-      localStorage.setItem("user", JSON.stringify({email, token: resposta.data.token, nome: resposta.data.nome}));
-      setAuth({email, token: resposta.data.token, nome: resposta.data.nome})
+      console.log(dados)
+      localStorage.setItem("user", JSON.stringify({email, token: resposta.data.token, name: resposta.data.name}));
+      setAuth({email, token: resposta.data.token, name: resposta.data.name})
       navigate("/home");
 
     });
