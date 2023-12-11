@@ -37,7 +37,7 @@ export default function SignUpPage() {
     setDisabled(true);
     promise.then(resposta => navigate('/'));
     promise.catch(resposta => {
-      alert(resposta.response.data.message);
+      alert(resposta.response.data);
       setDisabled(false);
     })
   }
