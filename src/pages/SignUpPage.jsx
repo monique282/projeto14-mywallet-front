@@ -9,7 +9,7 @@ import { ThreeDots } from "react-loader-spinner";
 
 
 export default function SignUpPage() {
-  const [nome, setNome] = useState('');
+  const [name, setNome] = useState('');
   const [disabled, setDisabled] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setSenha] = useState('');
@@ -45,7 +45,7 @@ export default function SignUpPage() {
     <SingUpContainer>
       <form onSubmit={cadastro}>
         <MyWalletLogo />
-        <input placeholder="Nome" type="text" required value={nome} onChange={(e) => setNome(e.target.value)} disabled={disabled} data-test="name" />
+        <input placeholder="Nome" type="text" required value={name} onChange={(e) => setNome(e.target.value)} disabled={disabled} data-test="name" />
         <input placeholder="E-mail" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} disabled={disabled} data-test="email" />
         <input placeholder="Senha" type="password" autoComplete="new-password" required value={senha} onChange={(e) => setSenha(e.target.value)} disabled={disabled} data-test="password" />
         <input placeholder="Confirme a senha" type="password" autoComplete="new-password" required value={confirmarSenha} onChange={(e) => setConfirmarSenha(e.target.value)} disabled={disabled} data-test="conf-password" />
