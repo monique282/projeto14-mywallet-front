@@ -31,7 +31,8 @@ export default function SignUpPage() {
       name: name,
       email: email,
       password: password
-    };
+    }; 
+
     const promise = axios.post(url, dados)
     setDisabled(true);
     promise.then(resposta => navigate('/'));
@@ -47,7 +48,7 @@ export default function SignUpPage() {
         <MyWalletLogo />
         <input placeholder="Nome" type="text" required value={name} onChange={(e) => setNome(e.target.value)} disabled={disabled} data-test="name" />
         <input placeholder="E-mail" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} disabled={disabled} data-test="email" />
-        <input placeholder="Senha" type="password" autoComplete="new-password" required value={senha} onChange={(e) => setSenha(e.target.value)} disabled={disabled} data-test="password" />
+        <input placeholder="Senha" type="password" autoComplete="new-password" required value={password} onChange={(e) => setSenha(e.target.value)} disabled={disabled} data-test="password" />
         <input placeholder="Confirme a senha" type="password" autoComplete="new-password" required value={confirmarSenha} onChange={(e) => setConfirmarSenha(e.target.value)} disabled={disabled} data-test="conf-password" />
         <button type='submit' disabled={disabled} data-test="sing-up-submit">
           {disabled ? (
