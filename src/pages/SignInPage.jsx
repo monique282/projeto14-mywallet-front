@@ -11,7 +11,7 @@ export default function SignInPage() {
 
   const {setAuth } = useContext(AuthContext);
   const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
+  const [password, setSenha] = useState('');
   const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ export default function SignInPage() {
     e.preventDefault();
     const dados = {
       email: email,
-      senha: senha
+      password: password
     }
     const url = `${import.meta.env.VITE_API_URL}/`
     const promise = axios.post(url, dados);

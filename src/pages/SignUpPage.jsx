@@ -12,7 +12,7 @@ export default function SignUpPage() {
   const [nome, setNome] = useState('');
   const [disabled, setDisabled] = useState(false);
   const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
+  const [password, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
   const navigate = useNavigate();
   
@@ -20,7 +20,7 @@ export default function SignUpPage() {
   function cadastro(e) {
     e.preventDefault();
     // se as senhas estão iguais ou nao 
-    if (senha != confirmarSenha) {
+    if (password != confirmarSenha) {
       return alert("Senhas informadas estão divergentes!");
     }
     // const url = `http://localhost:5000/cadastro`;
@@ -28,9 +28,9 @@ export default function SignUpPage() {
     const url = `${import.meta.env.VITE_API_URL}/cadastro`
 
     const dados = {
-      nome: nome,
+      name: name,
       email: email,
-      senha: senha
+      password: password
     };
     const promise = axios.post(url, dados)
     setDisabled(true);

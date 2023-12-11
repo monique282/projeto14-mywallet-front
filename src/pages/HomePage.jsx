@@ -45,7 +45,7 @@ export default function HomePage() {
     function converterParaNumeroFlutuante(valor) {
       const numeroAindaString = valor.replace(',', '.'); // traca a , por .
       const numeroFlutuante = parseFloat(numeroAindaString); // passa para numero flutuante
-      return numeroFlutuante.toFixed(2); // aui eu falo quantas casas decimais eu quero
+      return numeroFlutuante.toFixed(2); // aqui eu falo quantas casas decimais eu quero
     }
 
   }, [auth]);
