@@ -11,7 +11,7 @@ export default function SignInPage() {
 
   const {setAuth } = useContext(AuthContext);
   const [email, setEmail] = useState('');
-  const [password, setSenha] = useState('');
+  const [password, set] = useState('');
   const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
 
